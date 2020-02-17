@@ -1,4 +1,5 @@
 var express = require('express');
+var router = express.Router();
 const bodyParser = require('body-parser');
 const multer = require('multer');
 var upload = multer();
@@ -32,27 +33,24 @@ app.get('/express_backend', (req, res) => {
 });
 
 app.post('/login', (req, res) => {
+
   var email= req.body.email;
   var password = req.body.password;
   Login.findOne({email: email})
       .then((user) => {
           if (!user) {
               //res.redirect('/login');
-              console.log('user not defined');
+              // console.log('user not defined');
               res.send('user not defined');
           }
           bcrypt.compare(password, user.password, (err, result) => {
               if (result === true) {
                   console.log('password is compared and matched');
-                   var specificUser = user;
-                  // console.log('login userName:' + specificUser.name);
-                  return res.send('login userName:' + specificUser.fullName);
-                   res.redirect('/dashboard');
-                  //window.location.href = 'http://localhost:3000/faq-page';
+                  return res.send('Login successfully done.');
               } else {
                   // console.log('Incorrect password');
                   res.send('Incorrect password');
-                  res.redirect('/login')
+                  res.redirect('/login');
               }
           });
       })
